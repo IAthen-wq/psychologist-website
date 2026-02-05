@@ -524,7 +524,7 @@ function ProductsSection() {
       description: "Ассоциативная колода для глубокой работы с собственными страхами и подавленными эмоциями.",
       image: "/cards.jpg",
       buttonText: "Заказать",
-      href: "https://t.me/igor_afin"
+      href: "https://t.me/igor_athen"
     },
     {
       title: "Ролевая игра",
