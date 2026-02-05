@@ -5,7 +5,11 @@ import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-inter" });
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -49,7 +53,7 @@ export default function RootLayout({
         </noscript>
         <Script
           id="yandex-metrika"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(m,e,t,r,i,k,a){
@@ -64,7 +68,7 @@ export default function RootLayout({
         />
         <Script
           id="yandex-metrika-cards"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(m,e,t,r,i,k,a){
@@ -79,7 +83,7 @@ export default function RootLayout({
         />
         <Script
           id="yandex-metrika-pdf"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(m,e,t,r,i,k,a){
@@ -94,7 +98,7 @@ export default function RootLayout({
         />
         <Script
           id="yandex-metrika-booking"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(m,e,t,r,i,k,a){
@@ -109,7 +113,7 @@ export default function RootLayout({
         />
         <Script
           id="yandex-metrika-telegram"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(m,e,t,r,i,k,a){
@@ -124,7 +128,7 @@ export default function RootLayout({
         />
         <Script
           id="yandex-metrika-youtube"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(m,e,t,r,i,k,a){

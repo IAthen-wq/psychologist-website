@@ -146,6 +146,7 @@ function HeroSection() {
                 fill
                 className="object-cover object-center"
                 priority
+                sizes="(max-width: 1024px) 100vw, 448px"
               />
             </div>
           </div>
@@ -524,7 +525,7 @@ function ProductsSection() {
       description: "Ассоциативная колода для глубокой работы с собственными страхами и подавленными эмоциями.",
       image: "/cards.jpg",
       buttonText: "Заказать",
-      href: "https://t.me/igor_afin"
+      href: "https://t.me/Igor_Athen"
     },
     {
       title: "Ролевая игра",
@@ -757,7 +758,7 @@ function ContactMeSection() {
                 <span className="opacity-70">Первая ознакомительная консультация (50 минут) — </span><span className="text-white font-bold">бесплатно</span><span className="opacity-70">. Познакомимся с методом и сформулируем ваш запрос.</span>
               </p>
               <a
-                href="https://t.me/igor_afin"
+                href="https://t.me/Igor_Athen"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-fit bg-white text-black px-8 py-4 text-sm font-black tracking-widest hover:scale-105 transition-transform"
@@ -775,7 +776,7 @@ function ContactMeSection() {
             <div className="flex flex-col justify-between">
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="https://t.me/igor_afin"
+                  href="https://t.me/Igor_Athen"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block border border-white px-6 py-4 text-xl md:text-2xl font-bold text-white hover:bg-white hover:text-black transition-colors"
