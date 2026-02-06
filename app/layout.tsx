@@ -24,7 +24,10 @@ export const metadata: Metadata = {
   description: 'Помогаю найти опору в сложные периоды, справиться с тревогой и найти выход из жизненного тупика. Начните решать вашу проблему на первой бесплатной сессии.',
   generator: 'v0.app',
   metadataBase: new URL('https://athenpsy.ru'),
-  icons: { icon: '/favicon.png' },
+  icons: {
+    icon: '/favicon.png',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     title: 'Игорь Афин — Психолог',
     description: 'Первая сессия — бесплатно. Разберемся в причинах вашего состояния и наметим план конкретных перемен.',

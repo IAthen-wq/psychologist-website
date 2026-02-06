@@ -19,7 +19,16 @@ function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm py-6 px-6">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="/" className="text-2xl font-bold tracking-tighter">АФИН</a>
+        <a
+          href="#top"
+          className="text-2xl font-bold tracking-tighter"
+          onClick={(e) => {
+            e.preventDefault()
+            document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' })
+          }}
+        >
+          АФИН
+        </a>
         <div className="hidden md:flex gap-6 lg:gap-8 text-xs tracking-widest flex-wrap justify-end">
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} className="uppercase hover:opacity-70 transition-opacity">{link.label}</a>
@@ -60,6 +69,8 @@ function Navigation() {
 }
 
 function TypewriterText({ text }: { text: string }) {
+  // Нормализуем переносы: и символ \n, и литерал "\" + "n"
+  const normalizedText = text.replace(/\\n/g, '\n')
   const [displayText, setDisplayText] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
@@ -92,39 +103,47 @@ function TypewriterText({ text }: { text: string }) {
   }, [isComplete, hasLeft])
 
   useEffect(() => {
-    if (currentIndex < text.length) {
+    if (currentIndex < normalizedText.length) {
       const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex])
+        setDisplayText(prev => prev + normalizedText[currentIndex])
         setCurrentIndex(prev => prev + 1)
       }, 50)
       return () => clearTimeout(timeout)
-    } else if (currentIndex === text.length && !isComplete) {
+    } else if (currentIndex === normalizedText.length && !isComplete) {
       setIsComplete(true)
     }
-  }, [currentIndex, text, isComplete])
+  }, [currentIndex, normalizedText, isComplete])
 
   return (
     <span ref={ref}>
-      {displayText}
+      {displayText.split('\n').map((line, i) => (
+        <span key={i}>
+          {line}
+          {i < displayText.split('\n').length - 1 ? <br /> : null}
+        </span>
+      ))}
       {!isComplete && <span>|</span>}
     </span>
   )
 }
 
+const TAGLINE_TEXT = "Свобода от тревоги. Внутренняя опора. Здоровые границы."
+
 function HeroSection() {
   return (
-    <section className="min-h-screen flex items-center px-6 pt-24 pb-12 bg-black text-white">
+    <section id="top" className="min-h-screen flex items-center px-6 pt-24 pb-12 bg-black text-white">
       <div className="max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
+          <div className="flex flex-col items-start">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tight mb-8">
               ПРИВЕТ,<br />Я ИГОРЬ<br />АФИН
             </h1>
-            <p className="text-lg md:text-xl font-light tracking-widest uppercase mb-2">
+            {/* Подзаголовок: text-lg (18px) → md:text-xl (20px). Слоган длиннее в 52/22 раз → размер 22/52 от подзаголовка + запас */}
+            <span className="inline-block text-lg md:text-xl font-light tracking-widest uppercase mb-2">
               Аналитический психолог
-            </p>
-            <p className="text-sm font-light tracking-wide mb-8 h-5 opacity-60">
-              <TypewriterText text="Глубинный подход для решения актуальных проблем" />
+            </span>
+            <p className="inline-block font-light tracking-wide mb-8 opacity-60 whitespace-nowrap min-h-[1.5em] leading-tight text-[0.64rem] md:text-[0.71rem]">
+              <TypewriterText text={TAGLINE_TEXT} />
             </p>
             <a 
               href="#contact-me" 
@@ -429,22 +448,22 @@ function MethodsSection() {
     {
       number: "01",
       title: "Аналитическая психология",
-      description: "Глубинное исследование бессознательных процессов, работа с символами и сновидениями."
+      description: "Поиск истинных причин ваших состояний через работу с подсознанием. Помогает лучше понять себя и найти выход из повторяющихся жизненных сценариев."
     },
     {
       number: "02",
       title: "Психосинтез",
-      description: "Интеграция различных частей личности для обретения внутренней целостности."
+      description: "Устранение внутренних конфликтов и обретение согласия с собой. Помогает собрать разобранное состояние в единое целое и найти внутреннюю опору."
     },
     {
       number: "03",
       title: "КПТ и Схема-терапия",
-      description: "Практические инструменты для управления тревогой и изменения неэффективных привычек."
+      description: "Работа с навязчивыми мыслями и поведением. Конкретные техники, чтобы снизить уровень тревоги и научиться реагировать на стресс по-новому."
     }
   ]
 
   return (
-    <section id="methods" className="py-24 px-6 bg-neutral-950 text-white">
+    <section id="methods" className="pt-24 pb-12 px-6 bg-neutral-950 text-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[0.9] tracking-tight mb-20">
           МЕТОДЫ
@@ -454,11 +473,21 @@ function MethodsSection() {
             <RevealCard key={method.number} delay={index * 150}>
               <div className="border border-white/10 bg-white/5 p-8 h-full group hover:bg-white/10 transition-all duration-300">
                 <span className="text-7xl md:text-8xl font-black opacity-10 group-hover:opacity-20 transition-opacity block leading-none">{method.number}</span>
-                <h3 className="text-lg font-black mt-6 mb-4 uppercase tracking-widest">{method.title}</h3>
+                <h3 className="text-lg font-black mt-6 mb-4 uppercase tracking-widest min-h-[2.8em] leading-tight">{method.title}</h3>
                 <p className="text-sm opacity-60 leading-relaxed">{method.description}</p>
               </div>
             </RevealCard>
           ))}
+        </div>
+        <div className="mt-12 flex justify-center min-h-[5rem] items-center">
+          <a
+            href="https://t.me/Igor_Athen"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex bg-white text-black px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm font-black tracking-widest uppercase hover:scale-105 transition-transform"
+          >
+            УЗНАТЬ ПОДРОБНЕЕ
+          </a>
         </div>
       </div>
     </section>
