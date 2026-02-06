@@ -1,0 +1,5 @@
+meta:
+  environment: nodejs-server
+  toolchain:
+    name: node
+    version: "20"
