@@ -3,3 +3,8 @@ meta:
   toolchain:
     name: npm
     version: 20
+
+build: {}
+
+run:
+  command: npm run start
