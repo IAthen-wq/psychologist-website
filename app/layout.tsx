@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { CookieConsent } from '@/components/cookie-consent'
 import './globals.css'
 
 const inter = Inter({
@@ -25,8 +26,12 @@ export const metadata: Metadata = {
   generator: 'v0.app',
   metadataBase: new URL('https://athenpsy.ru'),
   icons: {
-    icon: '/favicon.png',
-    apple: '/apple-icon.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'Игорь Афин — Психолог',
@@ -145,6 +150,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <CookieConsent />
         <Analytics />
       </body>
     </html>

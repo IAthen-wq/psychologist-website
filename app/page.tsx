@@ -133,7 +133,7 @@ function HeroSection() {
   return (
     <section id="top" className="min-h-screen flex items-center px-6 pt-24 pb-12 bg-black text-white">
       <div className="max-w-7xl mx-auto w-full">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
           <div className="flex flex-col items-start">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tight mb-8">
               ПРИВЕТ,<br />Я ИГОРЬ<br />АФИН
@@ -336,22 +336,23 @@ function WorkWithSection() {
                 <RevealCard key={item.title} delay={index * 100}>
                   <div
                     className={
-                      "group/card relative h-auto w-[calc(100%-2rem)] md:w-full mx-auto min-w-0 overflow-hidden border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 md:p-8 lg:p-10 backdrop-blur-md transition-all duration-300 ease-out flex flex-col gap-y-6 " +
+                      "group/card @container relative h-auto w-[calc(100%-2rem)] md:w-full mx-auto min-w-0 overflow-hidden border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 md:p-8 lg:p-10 backdrop-blur-md transition-all duration-300 ease-out flex flex-col gap-y-6 " +
                       "hover:scale-[1.02] hover:bg-white/10 hover:border-white/30 " +
                       "group-hover:opacity-60 group-hover/card:opacity-100 " +
                       (index % 2 === 1 ? " md:mt-10 lg:mt-16" : "")
                     }
                   >
-                    <div className="flex items-start justify-between gap-4">
+                    <div className={`flex items-start justify-between gap-4 ${isPsychosomatics ? "min-w-0" : ""}`}>
                       <h3
                         className={
-                          "mt-4 font-semibold uppercase tracking-[0.15em] md:tracking-[0.25em] text-[clamp(1rem,2vw,1.5rem)] whitespace-nowrap break-all max-w-full pr-12 " +
+                          "mt-4 font-semibold uppercase tracking-[0.15em] md:tracking-[0.25em] text-[clamp(1rem,2vw,1.5rem)] pr-12 " +
                           (isPsychosomatics
-                            ? "[hyphens:auto] [word-break:keep-all]"
-                            : "")
+                            ? "min-w-0 break-words [hyphens:auto] @[260px]:whitespace-nowrap"
+                            : "whitespace-nowrap break-all max-w-full")
                         }
+                        lang={isPsychosomatics ? "ru" : undefined}
                       >
-                        {item.title}
+                        {isPsychosomatics ? "ПСИ\u00ADХО\u00ADСО\u00ADМА\u00ADТИ\u00ADКА" : item.title}
                       </h3>
                       <span className="pointer-events-none absolute top-4 right-4 md:top-5 md:right-5 lg:top-6 lg:right-6 text-xs font-medium tracking-[0.3em] opacity-20 group-hover/card:opacity-70 transition-opacity">
                         {String(index + 1).padStart(2, "0")}
@@ -401,19 +402,24 @@ function ResultsSection() {
         <div className="grid lg:grid-cols-[2.2fr_1.1fr] gap-12 lg:gap-20 w-full max-w-full">
           <div className="order-2 lg:order-1">
             <div className="grid grid-cols-1 md:[grid-template-columns:repeat(2,minmax(0,1fr))] gap-6 lg:gap-8 group w-full max-w-full">
-              {results.map((item, index) => (
+              {results.map((item, index) => {
+                const isStability = item.title === "Устойчивость"
+                return (
                 <RevealCard key={item.title} delay={index * 100}>
                   <div
                     className={
-                      "group/card relative h-auto w-[calc(100%-2rem)] md:w-full mx-auto min-w-0 overflow-hidden border border-black/10 bg-gradient-to-br from-black/5 to-transparent p-6 md:p-8 lg:p-10 backdrop-blur-md transition-all duration-300 ease-out flex flex-col gap-y-6 " +
+                      "group/card @container relative h-auto w-[calc(100%-2rem)] md:w-full mx-auto min-w-0 overflow-hidden border border-black/10 bg-gradient-to-br from-black/5 to-transparent p-6 md:p-8 lg:p-10 backdrop-blur-md transition-all duration-300 ease-out flex flex-col gap-y-6 " +
                       "hover:scale-[1.02] hover:bg-black/5 hover:border-black/30 " +
                       "group-hover:opacity-60 group-hover/card:opacity-100 " +
                       (index % 2 === 1 ? " md:mt-10 lg:mt-16" : "")
                     }
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="mt-4 font-semibold uppercase tracking-[0.15em] md:tracking-[0.25em] text-[clamp(1rem,2vw,1.5rem)] whitespace-nowrap break-all max-w-full pr-12">
-                        {item.title}
+                    <div className={`flex items-start justify-between gap-4 ${isStability ? "min-w-0" : ""}`}>
+                      <h3
+                        className={"mt-4 font-semibold uppercase tracking-[0.15em] md:tracking-[0.25em] text-[clamp(1rem,2vw,1.5rem)] pr-12 " + (isStability ? "min-w-0 break-words [hyphens:auto] @[260px]:whitespace-nowrap" : "whitespace-nowrap break-all max-w-full")}
+                        lang={isStability ? "ru" : undefined}
+                      >
+                        {isStability ? "УС\u00ADТОЙ\u00ADЧИ\u00ADВО\u00ADСТЬ" : item.title}
                       </h3>
                       <span className="pointer-events-none absolute top-4 right-4 md:top-5 md:right-5 lg:top-6 lg:right-6 text-xs font-medium tracking-[0.3em] opacity-20 group-hover/card:opacity-70 transition-opacity">
                         {String(index + 1).padStart(2, "0")}
@@ -427,7 +433,8 @@ function ResultsSection() {
                     </div>
                   </div>
                 </RevealCard>
-              ))}
+              );
+              })}
             </div>
           </div>
           <div className="order-1 lg:order-2 flex flex-col items-end lg:items-center justify-start lg:justify-center space-y-6">
@@ -491,7 +498,7 @@ function MethodsSection() {
         </div>
         <div className="mt-12 flex justify-center min-h-[5rem] items-center">
           <a
-            href="https://t.me/IgorAthen"
+            href="https://t.me/Igor_Athen"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex bg-white text-black px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm font-black tracking-widest uppercase hover:scale-105 transition-transform"
@@ -564,7 +571,7 @@ function ProductsSection() {
       description: "Ассоциативная колода для глубокой работы с собственными страхами и подавленными эмоциями.",
       image: "/cards.jpg",
       buttonText: "Заказать",
-      href: "https://t.me/IgorAthen"
+      href: "https://t.me/Igor_Athen"
     },
     {
       title: "Ролевая игра",
@@ -795,10 +802,10 @@ function ContactMeSection() {
           <FadeInText delay={0}>
             <div className="flex flex-col">
               <p className="text-lg md:text-xl mb-6">
-                <span className="opacity-70">Первая ознакомительная консультация (50 минут) — </span><span className="text-white font-bold">бесплатно</span><span className="opacity-70">. Познакомимся с методом и сформулируем ваш запрос.</span>
+                <span className="opacity-70">Первая ознакомительная консультация (50 минут) — </span><span className="text-white font-bold">бесплатно</span><span className="opacity-70">. Познакомимся с методом и сформулируем ваш запрос. Конфиденциально.</span>
               </p>
               <a
-                href="https://t.me/IgorAthen"
+                href="https://t.me/Igor_Athen"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-fit bg-white text-black px-8 py-4 text-sm font-black tracking-widest hover:scale-105 transition-transform"
@@ -869,6 +876,21 @@ function PhilosophySection() {
   )
 }
 
+function FooterLinks() {
+  return (
+    <div className="py-8 px-6 bg-black text-center">
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] md:text-xs text-white/40">
+        <a href="/politika-konfidencialnosti" className="hover:text-white/70 hover:underline transition-colors">
+          Политика конфиденциальности
+        </a>
+        <a href="/polzovatelskie-soglasheniya" className="hover:text-white/70 hover:underline transition-colors">
+          Пользовательские соглашения
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export default function Page() {
   return (
     <main className="overflow-x-hidden">
@@ -882,6 +904,7 @@ export default function Page() {
       <ProductsSection />
       <ReviewsEducationSection />
       <ContactMeSection />
+      <FooterLinks />
     </main>
   )
 }
