@@ -241,27 +241,38 @@ function ApproachSection() {
 function RevealCard({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
-
   useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const show = () => setIsVisible(true)
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              setIsVisible(true)
-            }, delay)
-          }
-          // Не скрываем при уходе из viewport — иначе при ресайзе картинки могут пропадать
+          if (entry.isIntersecting) setTimeout(show, delay)
         })
       },
       { threshold: 0.1 }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
+    observer.observe(el)
+
+    const checkVisibleOnResize = () => {
+      const current = ref.current
+      if (!current) return
+      const rect = current.getBoundingClientRect()
+      const inView = rect.top < window.innerHeight && rect.bottom > 0
+      if (inView) show()
     }
 
-    return () => observer.disconnect()
+    window.addEventListener("resize", checkVisibleOnResize)
+    checkVisibleOnResize()
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("resize", checkVisibleOnResize)
+    }
   }, [delay])
 
   return (
@@ -473,14 +484,14 @@ function MethodsSection() {
               <div className="border border-white/10 bg-white/5 p-8 h-full group hover:bg-white/10 transition-all duration-300">
                 <span className="text-7xl md:text-8xl font-black opacity-10 group-hover:opacity-20 transition-opacity block leading-none">{method.number}</span>
                 <h3 className="text-lg font-black mt-6 mb-4 uppercase tracking-widest min-h-[2.8em] leading-tight">{method.title}</h3>
-                <p className="text-sm opacity-60 leading-relaxed [hyphens:auto]" lang="ru">{method.description}</p>
+                <p className="text-sm opacity-60 leading-relaxed text-left break-words [text-wrap:balance] min-w-0" lang="ru">{method.description}</p>
               </div>
             </RevealCard>
           ))}
         </div>
         <div className="mt-12 flex justify-center min-h-[5rem] items-center">
           <a
-            href="https://t.me/Igor_Athen"
+            href="https://t.me/IgorAthen"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex bg-white text-black px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm font-black tracking-widest uppercase hover:scale-105 transition-transform"
@@ -553,7 +564,7 @@ function ProductsSection() {
       description: "Ассоциативная колода для глубокой работы с собственными страхами и подавленными эмоциями.",
       image: "/cards.jpg",
       buttonText: "Заказать",
-      href: "https://t.me/Igor_Athen"
+      href: "https://t.me/IgorAthen"
     },
     {
       title: "Ролевая игра",
