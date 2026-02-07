@@ -29,21 +29,44 @@ jobs:
       - name: Build standalone
         run: npm run standalone
 
-      - name: Deploy files via SSH
+      - name: Clean remote server (preserve .htaccess)
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Удаление всех файлов и папок, кроме .htaccess
-            find /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/ -mindepth 1 ! -name '.htaccess' -exec rm -rf {} + || true
-            
-            # Создание папки tmp, если она не существует
-            mkdir -p /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/tmp
-            
-            # Создание файла restart.txt в папке tmp
-            touch /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/tmp/restart.txt
-            
-            # Копирование файлов из .next/standalone в директорию сайта
-            rsync -avz .next/standalone/ /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
+            # Безопасное удаление всех файлов/папок кроме .htaccess
+            cd /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
+            shopt -s dotglob nullglob 2>/dev/null || true
+            for item in * .*; do
+              [[ -z "$item" || "$item" == "." || "$item" == ".." ]] && continue
+              [[ "$item" == ".htaccess" ]] && continue
+              rm -rf "$item" 2>/dev/null || true
+            done
+
+      - name: Deploy built files
+        uses: appleboy/rsync-deploy-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ".next/standalone/" 
+          target: "/home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/"
+          delete: false
+          exclude: ".htaccess" 
+          perms: true
+          recursive: true
+          compress: true
+          args: "--chmod=Du=rwx,Dg=rx,Do=rx,Fu=rw,Fg=r,Fo=r" 
+
+      - name: Create restart signal
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            TARGET_DIR="/home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html"
+            mkdir -p "$TARGET_DIR/tmp"
+            touch "$TARGET_DIR/tmp/restart.txt"
