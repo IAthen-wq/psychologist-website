@@ -47,7 +47,7 @@ jobs:
             done
 
       - name: Deploy built files via rsync
-        uses: burnett01/rsync-deployments@v1.2.5 
+        uses: burnett01/rsync-deployments@v8
         with:
           switches: -avz --delete --exclude='.htaccess'
           path: .next/standalone/
