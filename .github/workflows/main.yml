@@ -1,12 +1,11 @@
 name: Build and Deploy Standalone (Linux)
-
 on:
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'app/**'
-      - 'components/**'
+      - 'app/'
+      - 'components/'
       - 'public/**'
       - 'next.config.mjs'
       - 'package.json'
@@ -15,29 +14,36 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build standalone
-      run: npm run standalone
-      
-    - name: Deploy files via SSH
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          find /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/ -mindepth 1 ! -name '.well-known' ! -name '.htaccess' ! -name 'robots.txt' -exec rm -rf {} +
-          rsync -avz .next/standalone/ /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
-          touch /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/tmp/restart.txt
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build standalone
+        run: npm run standalone
+
+      - name: Deploy files via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            # Удаление всех файлов и папок, кроме .htaccess
+            find /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/ -mindepth 1 ! -name '.htaccess' -exec rm -rf {} + || true
+            
+            # Создание папки tmp, если она не существует
+            mkdir -p /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/tmp
+            
+            # Создание файла restart.txt в папке tmp
+            touch /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/tmp/restart.txt
+            
+            # Копирование файлов из .next/standalone в директорию сайта
+            rsync -avz .next/standalone/ /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
