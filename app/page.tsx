@@ -250,9 +250,8 @@ function RevealCard({ children, delay = 0 }: { children: React.ReactNode; delay?
             setTimeout(() => {
               setIsVisible(true)
             }, delay)
-          } else {
-            setIsVisible(false)
           }
+          // Не скрываем при уходе из viewport — иначе при ресайзе картинки могут пропадать
         })
       },
       { threshold: 0.1 }
@@ -474,7 +473,7 @@ function MethodsSection() {
               <div className="border border-white/10 bg-white/5 p-8 h-full group hover:bg-white/10 transition-all duration-300">
                 <span className="text-7xl md:text-8xl font-black opacity-10 group-hover:opacity-20 transition-opacity block leading-none">{method.number}</span>
                 <h3 className="text-lg font-black mt-6 mb-4 uppercase tracking-widest min-h-[2.8em] leading-tight">{method.title}</h3>
-                <p className="text-sm opacity-60 leading-relaxed">{method.description}</p>
+                <p className="text-sm opacity-60 leading-relaxed [hyphens:auto]" lang="ru">{method.description}</p>
               </div>
             </RevealCard>
           ))}
@@ -573,12 +572,13 @@ function ProductsSection() {
         <div className="grid md:grid-cols-2 gap-8">
           {products.map((product, index) => (
             <RevealCard key={product.title} delay={index * 100}>
-              <div className="group">
-                <div className="relative aspect-square overflow-hidden bg-neutral-900">
+              <div className="group w-full min-w-0">
+                <div className="relative w-full aspect-square overflow-hidden bg-neutral-900 min-h-[200px]">
                   <Image
                     src={product.image}
                     alt={product.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 672px"
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
@@ -787,7 +787,7 @@ function ContactMeSection() {
                 <span className="opacity-70">Первая ознакомительная консультация (50 минут) — </span><span className="text-white font-bold">бесплатно</span><span className="opacity-70">. Познакомимся с методом и сформулируем ваш запрос.</span>
               </p>
               <a
-                href="https://t.me/Igor_Athen"
+                href="https://t.me/IgorAthen"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-fit bg-white text-black px-8 py-4 text-sm font-black tracking-widest hover:scale-105 transition-transform"
@@ -805,7 +805,7 @@ function ContactMeSection() {
             <div className="flex flex-col justify-between">
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="https://t.me/Igor_Athen"
+                  href="https://t.me/IgorAthen"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block border border-white px-6 py-4 text-xl md:text-2xl font-bold text-white hover:bg-white hover:text-black transition-colors"
@@ -858,19 +858,6 @@ function PhilosophySection() {
   )
 }
 
-function QuoteFooter() {
-  return (
-    <div className="py-8 px-6 bg-black text-center space-y-3">
-      <p className="text-[11px] md:text-xs text-white/20 italic">
-        «Путь в тысячу ли начинается с одного шага» — Лао-Цзы
-      </p>
-      <p className="text-[9px] text-white/10">
-        Нажимая на кнопку, вы даёте согласие на обработку персональных данных.
-      </p>
-    </div>
-  )
-}
-
 export default function Page() {
   return (
     <main className="overflow-x-hidden">
@@ -884,7 +871,6 @@ export default function Page() {
       <ProductsSection />
       <ReviewsEducationSection />
       <ContactMeSection />
-      <QuoteFooter />
     </main>
   )
 }
