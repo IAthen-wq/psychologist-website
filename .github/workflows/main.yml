@@ -38,9 +38,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          # Копируем файлы в целевую директорию
-          rsync -avz --delete .next/standalone/ /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
-          
-          # Обновляем restart.txt в папке tmp внутри public_html
-          rm -f /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/tmp/restart.txt
+          find /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/ -mindepth 1 ! -name '.well-known' ! -name '.htaccess' ! -name 'robots.txt' -exec rm -rf {} +
+          rsync -avz .next/standalone/ /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
           touch /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/tmp/restart.txt
