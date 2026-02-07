@@ -36,29 +36,25 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Безопасное удаление всех файлов/папок кроме .htaccess
-            cd /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
+            TARGET_DIR="/home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html"
+            cd "$TARGET_DIR" || exit 1
+            
+            # Безопасное удаление всех файлов кроме .htaccess
             shopt -s dotglob nullglob 2>/dev/null || true
             for item in * .*; do
-              [[ -z "$item" || "$item" == "." || "$item" == ".." ]] && continue
-              [[ "$item" == ".htaccess" ]] && continue
+              [[ -z "$item" || "$item" == "." || "$item" == ".." || "$item" == ".htaccess" ]] && continue
               rm -rf "$item" 2>/dev/null || true
             done
 
-      - name: Deploy built files
-        uses: appleboy/rsync-deploy-action@v1.0.3
+      - name: Deploy built files via rsync
+        uses: burnett01/rsync-deployments@v1.2.5 
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          source: ".next/standalone/" 
-          target: "/home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/"
-          delete: false
-          exclude: ".htaccess" 
-          perms: true
-          recursive: true
-          compress: true
-          args: "--chmod=Du=rwx,Dg=rx,Do=rx,Fu=rw,Fg=r,Fo=r" 
+          switches: -avz --delete --exclude='.htaccess'
+          path: .next/standalone/
+          remote_path: /home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html/
+          remote_host: ${{ secrets.HOST }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.SSH_KEY }}
 
       - name: Create restart signal
         uses: appleboy/ssh-action@v1.0.0
@@ -70,3 +66,5 @@ jobs:
             TARGET_DIR="/home/${{ secrets.USERNAME }}/domains/${{ secrets.DOMAIN }}/public_html"
             mkdir -p "$TARGET_DIR/tmp"
             touch "$TARGET_DIR/tmp/restart.txt"
+            chmod 644 "$TARGET_DIR/tmp/restart.txt"
+            echo "✓ Restart signal created at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
