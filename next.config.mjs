@@ -3,6 +3,7 @@ const nextConfig = {
   output: 'standalone',
   experimental: {
     webpackMemoryOptimizations: true,
+    inlineCss: true,
   },
   typescript: {
     ignoreBuildErrors: true,
