@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { CookieConsent } from '@/components/cookie-consent'
+import { ImageWarmup } from '@/components/image-warmup'
 import './globals.css'
 
 const inter = Inter({
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Игорь Афин — Психолог',
     description: 'Первая сессия — бесплатно. Разберемся в причинах вашего состояния и наметим план конкретных перемен.',
-    images: ['/igor-portrait.jpg'],
+    images: ['/igor-portrait.webp'],
     type: 'website',
   },
 }
@@ -150,6 +151,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <ImageWarmup />
         <CookieConsent />
         <Analytics />
       </body>

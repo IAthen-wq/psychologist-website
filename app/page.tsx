@@ -160,7 +160,7 @@ function HeroSection() {
           <div className="flex justify-center">
             <div className="relative w-full max-w-md aspect-[4/5] bg-neutral-900 overflow-hidden">
               <Image
-                src="/igor-portrait.jpg"
+                src="/igor-portrait.webp"
                 alt="Портрет психолога"
                 fill
                 className="object-cover object-center"
@@ -267,9 +267,13 @@ function RevealCard({ children, delay = 0 }: { children: React.ReactNode; delay?
     }
 
     window.addEventListener("resize", checkVisibleOnResize)
-    checkVisibleOnResize()
+    // Проверка после раскладки (первый кадр), чтобы на первой загрузке картинки не оставались невидимыми из-за ещё не посчитанных размеров
+    const afterLayout = () => requestAnimationFrame(() => checkVisibleOnResize())
+    afterLayout()
+    const t = setTimeout(afterLayout, 50)
 
     return () => {
+      clearTimeout(t)
       observer.disconnect()
       window.removeEventListener("resize", checkVisibleOnResize)
     }
@@ -569,14 +573,14 @@ function ProductsSection() {
     {
       title: "Метафорические карты",
       description: "Ассоциативная колода для глубокой работы с собственными страхами и подавленными эмоциями.",
-      image: "/cards.jpg",
+      image: "/cards.webp",
       buttonText: "Заказать",
       href: "https://t.me/Igor_Athen"
     },
     {
       title: "Ролевая игра",
       description: "Авторский инструмент для путешествия в мир бессознательного и развития творческого начала.",
-      image: "/game.jpg",
+      image: "/game.webp",
       buttonText: "Купить PDF",
       href: "https://rpgbook.ru/rules/unique/Archetypum"
     }
@@ -879,7 +883,10 @@ function PhilosophySection() {
 function FooterLinks() {
   return (
     <div className="py-8 px-6 bg-black text-center">
-      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] md:text-xs text-white/40">
+      <p className="max-w-2xl mx-auto text-[9px] md:text-[10px] text-white/25 leading-relaxed mb-4">
+        Игорь Афин – творческий псевдоним самозанятого Жуковец Игоря Валерьевича (ИНН: 470615438771). Услуги, представленные на сайте, носят консультативный характер и не являются медицинской помощью. При наличии диагностированных психических расстройств или подозрении на них необходимо проконсультироваться с врачом-психиатром или психотерапевтом.
+      </p>
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] md:text-xs text-white/50">
         <a href="/politika-konfidencialnosti" className="hover:text-white/70 hover:underline transition-colors">
           Политика конфиденциальности
         </a>
