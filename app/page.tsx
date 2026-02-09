@@ -178,33 +178,27 @@ function HeroSection() {
 function FadeInText({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
-  const [hasLeft, setHasLeft] = useState(false)
+  const hasShownRef = useRef(false)
 
   useEffect(() => {
+    const el = ref.current
+    if (!el || hasShownRef.current) return
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting && isVisible) {
-            setHasLeft(true)
-            setIsVisible(false)
-          }
-          if (entry.isIntersecting && !isVisible) {
-            if (hasLeft) {
-              setHasLeft(false)
-            }
+          if (entry.isIntersecting && !hasShownRef.current) {
+            hasShownRef.current = true
             setTimeout(() => setIsVisible(true), delay)
           }
         })
       },
-      { threshold: 0.3 }
+      { threshold: 0.2, rootMargin: "0px 0px -50px 0px" }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
-
+    observer.observe(el)
     return () => observer.disconnect()
-  }, [delay, isVisible, hasLeft])
+  }, [delay])
 
   return (
     <div 

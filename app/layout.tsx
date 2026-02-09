@@ -2,9 +2,7 @@ import React from "react"
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import { CookieConsent } from '@/components/cookie-consent'
-import { ImageWarmup } from '@/components/image-warmup'
 import './globals.css'
 
 const inter = Inter({
@@ -151,9 +149,7 @@ export default function RootLayout({
           }}
         />
         {children}
-        <ImageWarmup />
         <CookieConsent />
-        <Analytics />
       </body>
     </html>
   )
