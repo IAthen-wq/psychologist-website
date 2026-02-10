@@ -48,33 +48,27 @@ export default function RootLayout({
   return (
     <html lang="ru" className="scroll-smooth">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <noscript>
-          <div>
-            <img src="https://mc.yandex.ru/watch/106613551" style={{ position: 'absolute', left: -9999 }} alt="" />
-            <img src="https://mc.yandex.ru/watch/106613736" style={{ position: 'absolute', left: -9999 }} alt="" />
-            <img src="https://mc.yandex.ru/watch/106613764" style={{ position: 'absolute', left: -9999 }} alt="" />
-            <img src="https://mc.yandex.ru/watch/106613790" style={{ position: 'absolute', left: -9999 }} alt="" />
-            <img src="https://mc.yandex.ru/watch/106613799" style={{ position: 'absolute', left: -9999 }} alt="" />
-            <img src="https://mc.yandex.ru/watch/106613811" style={{ position: 'absolute', left: -9999 }} alt="" />
-          </div>
-        </noscript>
-        <link rel="preconnect" href="https://mc.yandex.ru" />
         <Script
           id="yandex-metrika"
-          strategy="lazyOnload"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-              (function(m,e,t,r,i,k,a){
-                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();
-                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-              })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106613551', 'ym');
-              var o={ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true};
-              ym(106613551,'init',o);ym(106613736,'init',o);ym(106613764,'init',o);ym(106613790,'init',o);ym(106613799,'init',o);ym(106613811,'init',o);
-            `
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106739734', 'ym');
+
+    ym(106739734, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+            `.trim(),
           }}
         />
+        <noscript>
+          <div>
+            <img src="https://mc.yandex.ru/watch/106739734" style={{ position: 'absolute', left: -9999 }} alt="" />
+          </div>
+        </noscript>
         {children}
         <CookieConsent />
       </body>

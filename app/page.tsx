@@ -148,11 +148,6 @@ function HeroSection() {
             <a 
               href="#contact-me" 
               className="inline-flex w-fit bg-white text-black px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm font-black tracking-widest hover:scale-105 transition-transform"
-              onClick={() => {
-                if (typeof window !== 'undefined' && (window as typeof globalThis & { ym?: (id: number, action: string, goal?: string) => void }).ym) {
-                  (window as typeof globalThis & { ym: (id: number, action: string, goal?: string) => void }).ym(106613551, 'reachGoal', 'free_consultation');
-                }
-              }}
             >
               БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ
             </a>
@@ -605,15 +600,6 @@ function ProductsSection() {
                   target={product.href.startsWith("http") ? "_blank" : undefined}
                   rel={product.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="inline-block border border-white/40 px-6 py-3 text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-colors"
-                  onClick={product.title === "Метафорические карты" ? () => {
-                    if (typeof window !== 'undefined' && (window as typeof globalThis & { ym?: (id: number, action: string, goal?: string) => void }).ym) {
-                      (window as typeof globalThis & { ym: (id: number, action: string, goal?: string) => void }).ym(106613736, 'reachGoal', 'order_cards');
-                    }
-                  } : product.title === "Ролевая игра" ? () => {
-                    if (typeof window !== 'undefined' && (window as typeof globalThis & { ym?: (id: number, action: string, goal?: string) => void }).ym) {
-                      (window as typeof globalThis & { ym: (id: number, action: string, goal?: string) => void }).ym(106613764, 'reachGoal', 'buy_pdf');
-                    }
-                  } : undefined}
                 >
                   {product.buttonText}
                 </a>
@@ -807,11 +793,6 @@ function ContactMeSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-fit bg-white text-black px-8 py-4 text-sm font-black tracking-widest hover:scale-105 transition-transform"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && (window as typeof globalThis & { ym?: (id: number, action: string, goal?: string) => void }).ym) {
-                    (window as typeof globalThis & { ym: (id: number, action: string, goal?: string) => void }).ym(106613790, 'reachGoal', 'book_time');
-                  }
-                }}
               >
                 ЗАБРОНИРОВАТЬ ВРЕМЯ
               </a>
@@ -825,11 +806,6 @@ function ContactMeSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block border border-white px-6 py-4 text-xl md:text-2xl font-bold text-white hover:bg-white hover:text-black transition-colors"
-                  onClick={() => {
-                    if (typeof window !== 'undefined' && (window as typeof globalThis & { ym?: (id: number, action: string, goal?: string) => void }).ym) {
-                      (window as typeof globalThis & { ym: (id: number, action: string, goal?: string) => void }).ym(106613799, 'reachGoal', 'telegram');
-                    }
-                  }}
                 >
                   TELEGRAM
                 </a>
@@ -838,11 +814,6 @@ function ContactMeSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block border border-white px-6 py-4 text-xl md:text-2xl font-bold text-white hover:bg-white hover:text-black transition-colors"
-                  onClick={() => {
-                    if (typeof window !== 'undefined' && (window as typeof globalThis & { ym?: (id: number, action: string, goal?: string) => void }).ym) {
-                      (window as typeof globalThis & { ym: (id: number, action: string, goal?: string) => void }).ym(106613811, 'reachGoal', 'youtube');
-                    }
-                  }}
                 >
                   YOUTUBE
                 </a>
