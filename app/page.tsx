@@ -149,7 +149,7 @@ function HeroSection() {
               href="#contact-me" 
               className="inline-flex w-fit bg-white text-black px-6 py-3 md:px-8 md:py-4 text-xs md:text-sm font-black tracking-widest hover:scale-105 transition-transform"
             >
-              БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ
+              Забронировать время
             </a>
           </div>
           <div className="flex justify-center">
@@ -786,15 +786,15 @@ function ContactMeSection() {
           <FadeInText delay={0}>
             <div className="flex flex-col">
               <p className="text-lg md:text-xl mb-6">
-                <span className="opacity-70">Первая ознакомительная консультация (50 минут) — </span><span className="text-white font-bold">бесплатно</span><span className="opacity-70">. Познакомимся с методом и сформулируем ваш запрос. Конфиденциально.</span>
+                <span className="opacity-70">Оставьте заявку на </span>
+                <span className="text-white font-bold">бесплатную консультацию</span>
+                <span className="opacity-70">. Познакомимся, наметим вектор работы и сделаем первый шаг к решению вашего запроса.</span>
               </p>
               <a
-                href="https://t.me/Igor_Athen"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-fit bg-white text-black px-8 py-4 text-sm font-black tracking-widest hover:scale-105 transition-transform"
+                href="/zayavka"
+                className="inline-flex w-fit bg-white text-black px-9 py-[1.1rem] text-sm font-black tracking-widest hover:scale-105 transition-transform"
               >
-                ЗАБРОНИРОВАТЬ ВРЕМЯ
+                Оставить заявку
               </a>
             </div>
           </FadeInText>
